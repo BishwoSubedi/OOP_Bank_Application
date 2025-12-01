@@ -1,14 +1,33 @@
-from bank_account import Account
+from account import Account
+
 
 class CheckingAccount(Account):
-    def __init__(self, name, account_number, balance=0, fee=0):
-        super().__init__(name, account_number, balance)
-        self._fee = fee
+    # implementing inheritance from Account
+    def __init__(self, name: str, number: str, balance: float = 0.0, fee: float = 1.0):
+        super().__init__(name, number, balance)
+        self. fee = fee
 
-    def withdraw(self, amount):
-        total = amount + self._fee
-        if total > self.get_balance():
-            raise ValueError("Insufficient funds including fee")
-        super().withdraw(amount)
-        if self._fee > 0:
-            super().withdraw(self._fee)
+    def deposit(self, amount: float):
+        if amount <= 0:
+            print("Invalid amount.")
+            return False
+        self._balance += amount
+        self.save_transaction("Deposit", amount)
+        print(f"Deposited £{amount}. Balance: £{self._balance}")
+        return True
+
+    def withdraw(self, amount: float):
+        if amount <= 0:
+            print("Invalid amount.")
+            return False
+        total = amount + self.fee
+        if total > self._balance:
+            print("Not enough money.")
+            return False
+        self._balance -= total
+        self.save_transaction("Withdraw", amount)
+        print(f"Withdrew £{amount} (fee £{self.fee}). Balance: £{self._balance}")
+        return True
+
+    def get_type(self):
+        return "checking"

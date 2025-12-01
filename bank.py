@@ -1,26 +1,57 @@
-from saving_account import SavingsAccount
+import json
+import os
+from savings_account import SavingsAccount
 from checking_account import CheckingAccount
 
+DATA_FILE = "accounts.json"
+
+
 class Bank:
+    
     def __init__(self):
-        self.accounts = {}  #  Account object
+        self.accounts = {}
+        self.load()
 
-    def create_account(self, name, acc_type="savings", balance=0, **kwargs):
-        acc_no = f"AC{len(self.accounts)+1:06}"
-        if acc_type.lower() == "savings":
-            acc = SavingsAccount(name, acc_no, balance, kwargs.get("interest_rate", 0.02))
+    def load(self):
+        """Load accounts from file"""
+        if not os.path.exists(DATA_FILE):
+            return
+        with open(DATA_FILE, "r") as f:
+            data = json.load(f)
+        for acc in data:
+            if acc["type"] == "checking":
+                obj = CheckingAccount(acc["name"], acc["number"], acc["balance"])
+            else:
+                obj = SavingsAccount(acc["name"], acc["number"], acc["balance"])
+            self.accounts[acc["number"]] = obj
+
+    def save(self):
+        """Save accounts to file"""
+        data = [acc.to_dict() for acc in self.accounts.values()]
+        with open(DATA_FILE, "w") as f:
+            json.dump(data, f, indent=2)
+
+    def create(self, name: str, number: str, acc_type: str = "savings", balance: float = 0.0):
+        """Create new account"""
+        if number in self.accounts:
+            print("Account exists.")
+            return
+        if acc_type == "checking":
+            acc = CheckingAccount(name, number, balance)
         else:
-            acc = CheckingAccount(name, acc_no, balance, kwargs.get("fee", 0))
-        self.accounts[acc_no] = acc
-        return acc_no
+            acc = SavingsAccount(name, number, balance)
+        self.accounts[number] = acc
+        self.save()
+        print(f"Account {number} created.")
 
-    def get_account(self, acc_no):
-        return self.accounts.get(acc_no)
+    def get(self, number: str):
+        return self.accounts.get(number)
 
-    def transfer(self, from_acc, to_acc, amount):
-        sender = self.get_account(from_acc)
-        receiver = self.get_account(to_acc)
-        if not sender or not receiver:
-            raise ValueError("One or both accounts not found")
-        sender.withdraw(amount)
-        receiver.deposit(amount)
+# showing all accounts
+    def list_all(self):
+
+        if not self.accounts:
+            print("No accounts.")
+            return
+        for acc in self.accounts.values():
+            print(f"{acc. get_number()} | {acc.get_name()} | {acc.get_type()} | ${acc.get_balance()}")
