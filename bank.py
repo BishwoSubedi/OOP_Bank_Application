@@ -3,55 +3,52 @@ import os
 from savings_account import SavingsAccount
 from checking_account import CheckingAccount
 
-DATA_FILE = "accounts.json"
+_DATA_FILE = "accounts.json"
 
 
 class Bank:
     
     def __init__(self):
-        self.accounts = {}
-        self.load()
+        self.__accounts = {}  # private dictionary to hold accounts
+        self.load()  # load existing accounts from file
 
     def load(self):
-        """Load accounts from file"""
-        if not os.path.exists(DATA_FILE):
+        if not os.path.exists(_DATA_FILE):
             return
-        with open(DATA_FILE, "r") as f:
-            data = json.load(f)
+        with open(_DATA_FILE, "r") as f:
+            data = json.load(f)  # converting JSON data to Python object
         for acc in data:
             if acc["type"] == "checking":
-                obj = CheckingAccount(acc["name"], acc["number"], acc["balance"])
+                obj = CheckingAccount(acc["name"], acc["acc_number"], acc["balance"])
             else:
-                obj = SavingsAccount(acc["name"], acc["number"], acc["balance"])
-            self.accounts[acc["number"]] = obj
+                obj = SavingsAccount(acc["name"], acc["acc_number"], acc["balance"])
+            self.__accounts[acc["acc_number"]] = obj
 
     def save(self):
-        """Save accounts to file"""
-        data = [acc.to_dict() for acc in self.accounts.values()]
-        with open(DATA_FILE, "w") as f:
-            json.dump(data, f, indent=2)
+        data = [acc.to_dict() for acc in self.__accounts.values()]  # convert objects to dicts
+        with open(_DATA_FILE, "w") as f:
+            json.dump(data, f, indent=2)  # save as JSON
 
-    def create(self, name: str, number: str, acc_type: str = "savings", balance: float = 0.0):
+    def create(self, name: str, acc_number: str, acc_type: str, balance: float = 0.0):
         """Create new account"""
-        if number in self.accounts:
-            print("Account exists.")
+        if acc_number in self.__accounts:
+            print("Account already exists.")
             return
         if acc_type == "checking":
-            acc = CheckingAccount(name, number, balance)
+            acc = CheckingAccount(name, acc_number, balance)
         else:
-            acc = SavingsAccount(name, number, balance)
-        self.accounts[number] = acc
+            acc = SavingsAccount(name, acc_number, balance)
+        self.__accounts[acc_number] = acc
         self.save()
-        print(f"Account {number} created.")
+        print(f"Account {acc_number} created.")
 
-    def get(self, number: str):
-        return self.accounts.get(number)
+    def get(self, acc_number: str):
+        return self.__accounts.get(acc_number)
 
-# showing all accounts
     def list_all(self):
-
-        if not self.accounts:
+        if not self.__accounts:
             print("No accounts.")
             return
-        for acc in self.accounts.values():
-            print(f"{acc. get_number()} | {acc.get_name()} | {acc.get_type()} | ${acc.get_balance()}")
+        print("\n--- All Accounts ---")
+        for acc in self.__accounts.values():
+            print(f"{acc.get_number()} | {acc.get_name()} | {acc.get_type()} | £{acc.get_balance():.2f}")
