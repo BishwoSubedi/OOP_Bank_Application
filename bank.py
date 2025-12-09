@@ -51,4 +51,4 @@ class Bank:
             return
         print("\n--- All Accounts ---")
         for acc in self.__accounts.values():
-            print(f"{acc.get_number()} | {acc.get_name()} | {acc.get_type()} | £{acc.get_balance():.2f}")
+            print(f"{acc.get_number()} | {acc.get_name()} | {acc.get_type()} | £{acc.get_balance():.3f}")

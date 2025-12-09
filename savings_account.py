@@ -9,7 +9,7 @@ class SavingsAccount(Account):
         new_balance=self.get_balance()+amount
         self._update_balance(new_balance)
         self.save_transaction("Deposit", amount)
-        print(f"Deposited £{amount:.2f} | Balance: £{self.get_balance():.2f}")
+        print(f"Deposited £{amount:.3f} | Balance: £{self.get_balance():.3f}")
         
     def withdraw(self, amount:float):
         if amount<=0:
@@ -21,7 +21,7 @@ class SavingsAccount(Account):
         new_balance=self.get_balance()-amount
         self._update_balance(new_balance)
         self.save_transaction("Withdrawal", amount)
-        print(f"Withdrew £{amount:.2f} | Balance: £{self.get_balance():.2f}")
+        print(f"Withdrew £{amount:.3f} | Balance: £{self.get_balance():.3f}")
         return True
     
     def get_type(self):

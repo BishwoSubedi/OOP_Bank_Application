@@ -80,7 +80,7 @@ def main():
                         print("Invalid amount.")
 
                 elif sub == "3":
-                    print(f"Current Balance: £{acc.get_balance():.2f}")
+                    print(f"Current Balance: £{acc.get_balance():.3f}")
 
                 elif sub == "4":
                     acc.show_all_transactions()

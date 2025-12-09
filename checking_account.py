@@ -14,7 +14,7 @@ class CheckingAccount(Account):
         new_balance = self.get_balance() + amount
         self._update_balance(new_balance)
         self.save_transaction("Deposit", amount)
-        print(f"Deposited £{amount:.2f} | Balance £{self.get_balance():.2f}")
+        print(f"Deposited £{amount:.3f} | Balance £{self.get_balance():.3f}")
         return True
 
     def withdraw(self, amount: float):
@@ -31,7 +31,7 @@ class CheckingAccount(Account):
         self._update_balance(new_balance)
         self.save_transaction("Withdraw", amount)
         print(
-            f"Withdrew £{amount:.2f} (Fee £{self.__fee:.2f}) | Balance £{self.get_balance():.2f}"
+            f"Withdrew £{amount:.3f} (Fee £{self.__fee:.3f}) | Balance £{self.get_balance():.3f}"
         )
         return True
 
