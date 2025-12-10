@@ -2,8 +2,8 @@ from account import Account
 
 class CheckingAccount(Account):
 
-    def __init__(self, name: str, number: str, balance: float = 0.0, fee: float = 1.0):
-        super().__init__(name, number, balance)
+    def __init__(self, name: str, acc_number: str, balance: float = 0.0, fee: float = 1.0):
+        super().__init__(name, acc_number, balance)
         self.__fee = fee  # private fee
 
     def deposit(self, amount: float):

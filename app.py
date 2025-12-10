@@ -54,7 +54,7 @@ def main():
                 continue
 
             while True:
-                print(f"\n--- Account {acc.get_number()} ({acc.get_type()}) ---")
+                print(f"\n--- Account {acc.get_acc_number()} ({acc.get_type()}) ---")
                 print("1. Deposit")
                 print("2. Withdraw")
                 print("3. Balance")
