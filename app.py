@@ -45,7 +45,7 @@ def main():
             bank.list_all()
 
         elif choice == "3":
-            # Correct variable usage
+            
             acc_number = input("Account number: ").strip()
             acc = bank.get(acc_number)
 

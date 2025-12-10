@@ -5,13 +5,14 @@ from datetime import datetime
 TX_DIR = "transactions"
 os.makedirs(TX_DIR, exist_ok=True)
 
-class Account(ABC):
+class Account(ABC): #using inbuilt abstraction class in python
     def __init__(self, name: str, acc_number: int, balance: float = 0.0):
+        # creating private variables to hide internal detail (Implementation of Encapsulation)
         self.__name = name
         self.__acc_number = acc_number
         self.__balance = balance
 
-    #
+    # -------- Getters --------
     def get_name(self):
         return self.__name
 
@@ -42,7 +43,7 @@ class Account(ABC):
         else:
             print("No transactions found.")
 
-    
+    # -------- Abstract methods --------
     @abstractmethod
     def deposit(self, amount: float):
         pass
@@ -55,15 +56,5 @@ class Account(ABC):
     def get_type(self):
         pass
 
-  
-    def to_dict(self):
-        return {
-            "name": self.__name,
-            "acc_number": self.__acc_number,
-            "balance": self.__balance,
-            "type": self.get_type()
-        }
-
-    # -------- Protected balance update --------
     def _update_balance(self, amount: float):
         self.__balance = amount
