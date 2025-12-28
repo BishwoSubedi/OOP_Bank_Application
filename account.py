@@ -28,7 +28,7 @@ class Account(ABC): #using inbuilt abstraction class in python
         with open(filename, "a") as f:
             f.write(
                 f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | "
-                f"{transaction_type} | £{amount:.2f}\n"
+                f"{transaction_type} | £{amount:.3f}\n"
             )
 
     def save_transaction(self, transaction_type: str, amount: float):
